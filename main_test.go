@@ -150,3 +150,39 @@ func TestStartupSetsContext(t *testing.T) {
 	// Solo almacena el contexto de Wails; no abre ventanas ni diálogos.
 	app.startup(context.Background())
 }
+
+type errorFS struct{}
+
+func (errorFS) Open(name string) (fs.File, error) {
+	return nil, fs.ErrNotExist
+}
+
+func TestNormalizePath(t *testing.T) {
+	if got := normalizePath("/index.html"); got != "index.html" {
+		t.Fatalf("unexpected normalizePath: %q", got)
+	}
+	if got := normalizePath("index.html"); got != "index.html" {
+		t.Fatalf("unexpected normalizePath: %q", got)
+	}
+	if got := normalizePath("/frontend/dist/app.js"); got != "frontend/dist/app.js" {
+		t.Fatalf("unexpected normalizePath: %q", got)
+	}
+}
+
+func TestRenamedFileName(t *testing.T) {
+	r := renamedFile{name: "logo.png"}
+	if r.Name() != "logo.png" {
+		t.Fatalf("renamedFile.Name: got %q", r.Name())
+	}
+}
+
+func TestAssetFS_ReadDirRootWithMissingIcon(t *testing.T) {
+	ui, err := fs.Sub(uiAssets, "frontend/dist")
+	if err != nil {
+		t.Fatalf("setup ui fs: %v", err)
+	}
+	a := &assetFS{ui: ui, icon: errorFS{}}
+	if _, err := fs.ReadDir(a, "."); err == nil {
+		t.Fatal("expected error when icon is missing")
+	}
+}

@@ -16,6 +16,8 @@ import (
 	"github.com/gabriel/ascii-banner-studio/internal/core/ports"
 )
 
+var saveFileDialog = runtime.SaveFileDialog
+
 // Handler es el objeto que Wails vincula (Bind) al frontend. Cada método
 // exportado se convierte en un binding JS bajo window.go.main.App.
 //
@@ -101,7 +103,7 @@ func (h *Handler) SaveBanner(content string, suggestedName string) (string, erro
 	if h.ctx == nil {
 		return "", errors.New("la aplicación todavía no está lista; reintentá en un momento")
 	}
-	file, err := runtime.SaveFileDialog(h.ctx, runtime.SaveDialogOptions{
+	file, err := saveFileDialog(h.ctx, runtime.SaveDialogOptions{
 		Title:           "Guardar banner ASCII",
 		DefaultFilename: defaultFileName(suggestedName),
 	})
