@@ -1,0 +1,26 @@
+# Binarios e íconos generados
+/build/bin/
+*.exe
+*.dll
+*.syso
+
+# Dependencias del frontend (solo vanilla, sin node_modules, pero queda cubierto)
+/node_modules/
+
+# Bindings generados por Wails (se regeneran con `wails dev` / `wails build`)
+/frontend/dist/wailsjs/
+
+# Editor
+.idea/
+*.swp
+.vscode
+.atl
+openspec
+docs
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

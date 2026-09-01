@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASCII Banner Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <div class="brand">
+          <img class="logo" src="./logo.png" alt="ASCII Banner Studio" width="48" height="48" />
+          <div>
+            <h1>ASCII Banner Studio</h1>
+            <p class="tagline">Generador de banners ASCII de escritorio</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <p id="status" class="status" role="status"></p>
+          <button id="copy-btn" class="btn btn-primary" title="Copiar el resultado al portapapeles">Copiar</button>
+          <button id="save-btn" class="btn" title="Guardar el resultado en un archivo">Guardar</button>
+        </div>
+      </header>
+      <main class="layout">
+        <section class="panel controls" aria-label="Opciones">
+          <label class="field" for="text-input">
+            <span class="label">Texto</span>
+            <textarea
+              id="text-input"
+              rows="3"
+              spellcheck="false"
+              placeholder="Escribe lo que quieras convertir en banner…"
+            >
+ASCII</textarea
+            >
+          </label>
+          <div class="field">
+            <span class="label">Fuente</span>
+            <div id="font-picker" class="segmented" role="radiogroup" aria-label="Fuente"></div>
+          </div>
+          <label class="field" for="spacing">
+            <span class="label">Espaciado entre letras <output id="spacing-value">1</output></span>
+            <input type="range" id="spacing" min="0" max="8" step="1" value="1" />
+          </label>
+          <div class="field toggles">
+            <label class="check"><input type="checkbox" id="uppercase" /> Forzar mayúsculas</label>
+            <label class="check"><input type="checkbox" id="trim" /> Recortar espacios</label>
+          </div>
+          <label class="field" for="format-select">
+            <span class="label">Formato de salida</span>
+            <select id="format-select"></select>
+          </label>
+        </section>
+        <section class="panel preview" aria-label="Vista previa">
+          <div class="preview-toolbar">
+            <span id="meta" class="meta">—</span>
+            <span class="hint">Vista previa en vivo</span>
+          </div>
+          <pre id="output" class="output" aria-live="polite"></pre>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
