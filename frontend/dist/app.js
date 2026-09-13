@@ -88,7 +88,6 @@ function renderFontSelect(fonts) {
     const opt = document.createElement('option');
     opt.value = font.ID;
     opt.textContent = font.Name;
-    opt.title = font.ID;
     if (font.ID === state.font) opt.selected = true;
     els.fontSelect.appendChild(opt);
   }
@@ -112,36 +111,29 @@ function renderFormatSelect(formats) {
 
 function bindEvents() {
   els.textInput.addEventListener('input', scheduleRefresh);
-
   els.fontSelect.addEventListener('change', () => {
     state.font = els.fontSelect.value;
     scheduleRefresh();
   });
-
   els.spacing.addEventListener('input', () => {
     state.spacing = Number(els.spacing.value);
     els.spacingValue.textContent = String(state.spacing);
     scheduleRefresh();
   });
-
   els.uppercase.addEventListener('change', () => {
     state.uppercase = els.uppercase.checked;
     scheduleRefresh();
   });
-
   els.trim.addEventListener('change', () => {
     state.trim = els.trim.checked;
     scheduleRefresh();
   });
-
   els.formatSelect.addEventListener('change', () => {
     state.format = els.formatSelect.value;
     scheduleRefresh();
   });
-
   els.copyBtn.addEventListener('click', copyToClipboard);
   els.saveBtn.addEventListener('click', saveToFile);
-
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -172,13 +164,10 @@ function scheduleRefresh() {
 async function refresh() {
   const seq = ++refreshSeq;
   const text = els.textInput.value;
-
   try {
     const isPlain = state.format === '' || state.format === 'txt';
     const output = isPlain ? await Generate(text, options()) : await Export(text, options(), state.format);
-
     if (seq !== refreshSeq) return; // una petición más nueva ya ganó
-
     els.output.textContent = output;
     const fmtLabel = els.formatSelect.selectedOptions[0]?.textContent ?? state.format;
     els.meta.textContent = `${fmtLabel} · ${measure(output)}`;
@@ -222,26 +211,14 @@ function flashOk(message, ms = 2500) {
 async function copyToClipboard() {
   const text = els.output.textContent;
   if (!text) return;
-
   try {
+    if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+      throw new Error('el portapapeles no está disponible en este contexto');
+    }
     await navigator.clipboard.writeText(text);
     flashOk('Copiado al portapapeles ✓');
   } catch (err) {
-    // Fallback: selección en un textarea oculto.
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-      flashOk('Copiado al portapapeles ✓');
-    } catch (copyErr) {
-      showError('No se pudo copiar: ' + String(copyErr));
-    } finally {
-      document.body.removeChild(ta);
-    }
+    showError('No se pudo copiar: ' + String((err && err.message) || err));
   }
 }
 

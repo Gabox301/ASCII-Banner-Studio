@@ -176,6 +176,8 @@ h1 {
 
 .btn:hover {
   background: #ffffff;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(20, 20, 20, 0.8);
 }
 
 .btn:active {
