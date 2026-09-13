@@ -24,14 +24,17 @@ func newTestHandler() *gui.Handler {
 func TestListFontsGuisAvailableFonts(t *testing.T) {
 	h := newTestHandler()
 	fonts := h.ListFonts()
-	if len(fonts) != 4 {
-		t.Fatalf("expected 4 fonts, got %d", len(fonts))
+	if len(fonts) != 24 {
+		t.Fatalf("expected 24 fonts, got %d", len(fonts))
 	}
 	seen := map[string]bool{}
 	for _, f := range fonts {
+		if seen[f.ID] {
+			t.Fatalf("duplicate font ID %q", f.ID)
+		}
 		seen[f.ID] = true
 	}
-	for _, id := range []string{"block", "big", "banner", "minimal"} {
+	for _, id := range []string{"block", "big", "banner", "minimal", "standard", "slant", "shadow", "bubble", "digital", "starwars", "doom", "script", "banner3d", "isometric", "larry3d", "ogre", "graffiti", "ansi-shadow", "colossal", "pyramid", "tinker-toy", "epic", "big-figlet", "block-figlet"} {
 		if !seen[id] {
 			t.Fatalf("expected font %q in the list", id)
 		}

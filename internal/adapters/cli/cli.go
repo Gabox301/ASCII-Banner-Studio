@@ -62,7 +62,7 @@ func (c *CLI) Run(args []string) int {
 	text := args[0]
 	fs := flag.NewFlagSet("asciibanner", flag.ContinueOnError)
 	fs.SetOutput(c.Stderr)
-	font := fs.String("font", "block", "fuente a usar (block, big, banner, minimal)")
+	font := fs.String("font", "block", "fuente a usar (ver list-fonts: block, big, banner, minimal + 20 estilos figlet)")
 	spacing := fs.Int("spacing", 1, "espacio entre caracteres")
 	align := fs.String("align", "left", "alineación: left|center|right")
 	uppercase := fs.Bool("uppercase", false, "convertir a mayúsculas")

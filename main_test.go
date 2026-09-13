@@ -133,8 +133,8 @@ func TestBuildAppWiring(t *testing.T) {
 	if app == nil || app.Handler == nil {
 		t.Fatal("buildApp devolvió un App sin handler")
 	}
-	if len(app.ListFonts()) != 4 {
-		t.Fatalf("expected 4 fonts, got %d", len(app.ListFonts()))
+	if len(app.ListFonts()) != 24 {
+		t.Fatalf("expected 24 fonts, got %d", len(app.ListFonts()))
 	}
 	out, err := app.Generate("HI", domain.BannerOptions{Font: "minimal", Spacing: 0})
 	if err != nil {

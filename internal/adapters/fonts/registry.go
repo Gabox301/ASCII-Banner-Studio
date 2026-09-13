@@ -8,22 +8,46 @@ import (
 )
 
 // Registry es un adaptador secundario en memoria que implementa
-// ports.FontRepository. El MVP incluye las 4 fuentes requeridas por el
-// spec (Block, Big, Banner, Minimal); agregar una nueva fuente futura
+// ports.FontRepository. Incluye las 4 fuentes base (Block, Big, Banner,
+// Minimal) más 20 fuentes estilo FIGlet; agregar una nueva fuente futura
 // solo requiere sumarla acá, sin tocar el core.
+//
+// Para evitar duplicaciones, las FIGlet "big" y "block" se registran como
+// "big-figlet" y "block-figlet" (las IDs "big" y "block" ya existen con otro
+// diseño). "banner3d" convive con "banner" porque son diseños distintos.
 type Registry struct {
 	fonts map[string]domain.Font
 }
 
 var _ ports.FontRepository = (*Registry)(nil)
 
-// NewRegistry construye el registro con las fuentes del MVP.
+// NewRegistry construye el registro con todas las fuentes disponibles.
 func NewRegistry() *Registry {
 	all := []domain.Font{
 		NewBlockFont(),
 		NewBigFont(),
 		NewBannerFont(),
 		NewMinimalFont(),
+		NewStandardFont(),
+		NewBigFigletFont(),
+		NewSlantFont(),
+		NewBlockFigletFont(),
+		NewShadowFont(),
+		NewBubbleFont(),
+		NewDigitalFont(),
+		NewStarwarsFont(),
+		NewDoomFont(),
+		NewScriptFont(),
+		NewBanner3DFont(),
+		NewIsometricFont(),
+		NewLarry3DFont(),
+		NewOgreFont(),
+		NewGraffitiFont(),
+		NewAnsiShadowFont(),
+		NewColossalFont(),
+		NewPyramidFont(),
+		NewTinkerToyFont(),
+		NewEpicFont(),
 	}
 	byID := make(map[string]domain.Font, len(all))
 	for _, f := range all {

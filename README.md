@@ -80,7 +80,7 @@ go run ./cmd/asciibanner "SKILLINDEX" -font block -spacing 1 -align left
 go run ./cmd/asciibanner "SKILLINDEX" -font banner -format javascript
 ```
 
-Flags disponibles: `-font` (block|big|banner|minimal), `-spacing` (int, default 1),
+Flags disponibles: `-font` (ver `list-fonts`: 24 fuentes), `-spacing` (int, default 1),
 `-align` (left|center|right), `-uppercase`, `-trim`,
 `-format` (txt|javascript|typescript|python|json).
 
@@ -237,13 +237,7 @@ go run ./cmd/asciibanner "GABO" -font banner -format json
 ```
 
 ```json
-[
-  "  ████    ███    ████     ███   ",
-  " █       █   █   █   █   █   █  ",
-  " █  ██   █████   ████    █   █  ",
-  " █   █   █   █   █   █   █   █  ",
-  "  ████   █   █   ████     ███   "
-]
+["  ████    ███    ████     ███   ", " █       █   █   █   █   █   █  ", " █  ██   █████   ████    █   █  ", " █   █   █   █   █   █   █   █  ", "  ████   █   █   ████     ███   "]
 ```
 
 ```bash
@@ -264,13 +258,6 @@ Para validar la app de escritorio end-to-end:
 wails build
 build/bin/ASCIIBannerStudio.exe
 ```
-
-## Fuentes incluidas
-
-- **block**: bloques 5x5, la fuente base.
-- **big**: deriva de `block` escalando cada pixel x2 (10x10).
-- **banner**: deriva de `block` con relleno Unicode `█` y margen lateral.
-- **minimal**: una sola fila, passthrough del carácter.
 
 Cada fuente vive en su propio archivo bajo `internal/adapters/fonts/` y
 se registra en `Registry` sin tocar el algoritmo de `BannerService`.

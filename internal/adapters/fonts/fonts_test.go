@@ -13,6 +13,26 @@ func allFonts() []domain.Font {
 		fonts.NewBigFont(),
 		fonts.NewBannerFont(),
 		fonts.NewMinimalFont(),
+		fonts.NewStandardFont(),
+		fonts.NewBigFigletFont(),
+		fonts.NewSlantFont(),
+		fonts.NewBlockFigletFont(),
+		fonts.NewShadowFont(),
+		fonts.NewBubbleFont(),
+		fonts.NewDigitalFont(),
+		fonts.NewStarwarsFont(),
+		fonts.NewDoomFont(),
+		fonts.NewScriptFont(),
+		fonts.NewBanner3DFont(),
+		fonts.NewIsometricFont(),
+		fonts.NewLarry3DFont(),
+		fonts.NewOgreFont(),
+		fonts.NewGraffitiFont(),
+		fonts.NewAnsiShadowFont(),
+		fonts.NewColossalFont(),
+		fonts.NewPyramidFont(),
+		fonts.NewTinkerToyFont(),
+		fonts.NewEpicFont(),
 	}
 }
 
@@ -56,14 +76,33 @@ func TestUnknownCharacterFallsBackWithoutPanic(t *testing.T) {
 func TestRegistryListAndGet(t *testing.T) {
 	reg := fonts.NewRegistry()
 	list := reg.List()
-	if len(list) != 4 {
-		t.Fatalf("expected 4 fonts registered, got %d", len(list))
+	if len(list) != 24 {
+		t.Fatalf("expected 24 fonts registered, got %d", len(list))
 	}
 	if _, ok := reg.Get("block"); !ok {
 		t.Fatal("expected block font to be registered")
 	}
 	if _, ok := reg.Get("nonexistent"); ok {
 		t.Fatal("expected nonexistent font lookup to fail")
+	}
+	// Sin duplicaciones: IDs y nombres únicos.
+	seenIDs := map[string]bool{}
+	seenNames := map[string]bool{}
+	for _, info := range list {
+		if seenIDs[info.ID] {
+			t.Fatalf("duplicate font ID %q", info.ID)
+		}
+		seenIDs[info.ID] = true
+		if seenNames[info.Name] {
+			t.Fatalf("duplicate font Name %q", info.Name)
+		}
+		seenNames[info.Name] = true
+	}
+	// Las FIGlet que colisionaban con las base usan IDs propios.
+	for _, id := range []string{"big-figlet", "block-figlet", "banner3d"} {
+		if _, ok := reg.Get(id); !ok {
+			t.Fatalf("expected figlet font %q to be registered", id)
+		}
 	}
 }
 

@@ -31,7 +31,7 @@ const EXT_BY_FORMAT = {
 
 const els = {
   textInput: document.getElementById('text-input'),
-  fontPicker: document.getElementById('font-picker'),
+  fontSelect: document.getElementById('font-select'),
   spacing: document.getElementById('spacing'),
   spacingValue: document.getElementById('spacing-value'),
   uppercase: document.getElementById('uppercase'),
@@ -61,7 +61,7 @@ async function init() {
   try {
     const [fonts, formats] = await Promise.all([ListFonts(), ListExportFormats()]);
     state.fonts = fonts;
-    renderFontPicker(fonts);
+    renderFontSelect(fonts);
     renderFormatSelect(formats);
   } catch (err) {
     showError(err);
@@ -70,21 +70,21 @@ async function init() {
   await refresh();
 }
 
-function renderFontPicker(fonts) {
-  els.fontPicker.innerHTML = '';
+function renderFontSelect(fonts) {
+  els.fontSelect.innerHTML = '';
   for (const font of fonts) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.dataset.font = font.ID;
-    btn.title = font.Name;
-    btn.textContent = font.ID;
-    if (font.ID === state.font) btn.classList.add('active');
-    btn.addEventListener('click', () => {
-      state.font = font.ID;
-      setActive(els.fontPicker, 'font', font.ID);
-      scheduleRefresh();
-    });
-    els.fontPicker.appendChild(btn);
+    const opt = document.createElement('option');
+    opt.value = font.ID;
+    opt.textContent = font.Name;
+    opt.title = font.ID;
+    if (font.ID === state.font) opt.selected = true;
+    els.fontSelect.appendChild(opt);
+  }
+  // Si la fuente por defecto ya no existe (p.ej. cambió el registry),
+  // usar la primera disponible.
+  if (![...els.fontSelect.options].some((o) => o.value === state.font) && els.fontSelect.options.length > 0) {
+    state.font = els.fontSelect.options[0].value;
+    els.fontSelect.value = state.font;
   }
 }
 
@@ -100,6 +100,11 @@ function renderFormatSelect(formats) {
 
 function bindEvents() {
   els.textInput.addEventListener('input', scheduleRefresh);
+
+  els.fontSelect.addEventListener('change', () => {
+    state.font = els.fontSelect.value;
+    scheduleRefresh();
+  });
 
   els.spacing.addEventListener('input', () => {
     state.spacing = Number(els.spacing.value);
@@ -200,11 +205,6 @@ function flashOk(message, ms = 2500) {
   }, ms);
 }
 
-function setActive(container, datasetKey, value) {
-  container.querySelectorAll('button').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset[datasetKey] === value);
-  });
-}
 // ===== Acciones =====
 
 async function copyToClipboard() {
