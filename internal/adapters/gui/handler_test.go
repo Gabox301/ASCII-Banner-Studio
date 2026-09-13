@@ -44,14 +44,14 @@ func TestListFontsGuisAvailableFonts(t *testing.T) {
 func TestListExportFormatsIncludesAllFormats(t *testing.T) {
 	h := newTestHandler()
 	formats := h.ListExportFormats()
-	if len(formats) != 6 {
-		t.Fatalf("expected 6 export formats, got %d", len(formats))
+	if len(formats) != 18 {
+		t.Fatalf("expected 18 export formats, got %d", len(formats))
 	}
 	seen := map[string]bool{}
 	for _, f := range formats {
 		seen[f.ID] = true
 	}
-	for _, id := range []string{"txt", "javascript", "typescript", "rust", "python", "json"} {
+	for _, id := range []string{"txt", "javascript", "typescript", "rust", "python", "json", "go", "java", "csharp", "c", "kotlin", "swift", "ruby", "php", "dart", "lua", "shell", "powershell"} {
 		if !seen[id] {
 			t.Fatalf("expected format %q in the list", id)
 		}

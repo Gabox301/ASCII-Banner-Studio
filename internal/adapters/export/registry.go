@@ -10,8 +10,10 @@ type Registry struct {
 
 var _ ports.ExporterRepository = (*Registry)(nil)
 
-// NewRegistry construye el registro con los 6 formatos requeridos por
-// el spec: TXT, JavaScript, TypeScript, Rust, Python y JSON.
+// NewRegistry construye el registro con los 6 formatos base (TXT,
+// JavaScript, TypeScript, Rust, Python y JSON) más 12 formatos de código:
+// Go, Java, C#, C/C++, Kotlin, Swift, Ruby, PHP, Dart, Lua, Shell y
+// PowerShell.
 func NewRegistry() *Registry {
 	list := []ports.Exporter{
 		TxtExporter{},
@@ -20,6 +22,18 @@ func NewRegistry() *Registry {
 		RustExporter{},
 		PythonExporter{},
 		JSONExporter{},
+		GoExporter{},
+		JavaExporter{},
+		CSharpExporter{},
+		CExporter{},
+		KotlinExporter{},
+		SwiftExporter{},
+		RubyExporter{},
+		PHPExporter{},
+		DartExporter{},
+		LuaExporter{},
+		ShellExporter{},
+		PowerShellExporter{},
 	}
 	byID := make(map[string]ports.Exporter, len(list))
 	order := make([]string, 0, len(list))

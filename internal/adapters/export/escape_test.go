@@ -67,3 +67,38 @@ func TestEscapeBacktickNoSpecialChars(t *testing.T) {
 		t.Fatalf("expected no change, got %q", out)
 	}
 }
+
+func TestEscapeKotlinDollar(t *testing.T) {
+	out := escapeKotlin(`price $5`)
+	if out != `price ${'$'}5` {
+		t.Fatalf("expected escaped dollar, got %q", out)
+	}
+}
+
+func TestEscapeRubyInterpolation(t *testing.T) {
+	out := escapeRubyDoubleQuoted(`#{name}`)
+	if out != `\#{name}` {
+		t.Fatalf("expected escaped interpolation, got %q", out)
+	}
+}
+
+func TestEscapeDartDollar(t *testing.T) {
+	out := escapeDartSingleQuoted(`$x`)
+	if out != `\$x` {
+		t.Fatalf("expected escaped dollar, got %q", out)
+	}
+}
+
+func TestEscapeShellSingleQuote(t *testing.T) {
+	out := escapeShellSingleQuoted(`it's`)
+	if out != `it'\''s` {
+		t.Fatalf("expected shell-escaped quote, got %q", out)
+	}
+}
+
+func TestEscapePowerShellSingleQuote(t *testing.T) {
+	out := escapePowerShellSingleQuoted(`it's`)
+	if out != `it''s` {
+		t.Fatalf("expected doubled quote, got %q", out)
+	}
+}

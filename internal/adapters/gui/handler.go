@@ -54,8 +54,9 @@ func (h *Handler) Generate(text string, opts domain.BannerOptions) (string, erro
 	return h.generator.Generate(text, opts)
 }
 
-// Export genera el banner y lo transforma al formato pedido (txt, javascript,
-// typescript, rust, python o json), listo para copiar en código.
+// Export genera el banner y lo transforma al formato pedido (ver
+// ListExportFormats: texto plano, lenguajes de código o json), listo para
+// copiar en código.
 func (h *Handler) Export(text string, opts domain.BannerOptions, format string) (string, error) {
 	output, err := h.generator.Generate(text, opts)
 	if err != nil {

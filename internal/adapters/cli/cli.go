@@ -67,7 +67,7 @@ func (c *CLI) Run(args []string) int {
 	align := fs.String("align", "left", "alineación: left|center|right")
 	uppercase := fs.Bool("uppercase", false, "convertir a mayúsculas")
 	trim := fs.Bool("trim", false, "recortar espacios al inicio/fin")
-	format := fs.String("format", "", "formato de exportación: txt|javascript|typescript|rust|python|json")
+	format := fs.String("format", "", "formato de exportación (ver list-formats): txt|javascript|typescript|rust|python|json|go|java|...")
 
 	if err := fs.Parse(args[1:]); err != nil {
 		return 2

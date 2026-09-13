@@ -27,6 +27,18 @@ const EXT_BY_FORMAT = {
   rust: 'rs',
   python: 'py',
   json: 'json',
+  go: 'go',
+  java: 'java',
+  csharp: 'cs',
+  c: 'c',
+  kotlin: 'kt',
+  swift: 'swift',
+  ruby: 'rb',
+  php: 'php',
+  dart: 'dart',
+  lua: 'lua',
+  shell: 'sh',
+  powershell: 'ps1',
 };
 
 const els = {

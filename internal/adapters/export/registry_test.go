@@ -29,8 +29,8 @@ func TestRegistryGetUnknownFormat(t *testing.T) {
 func TestRegistryList(t *testing.T) {
 	reg := export.NewRegistry()
 	list := reg.List()
-	if len(list) != 6 {
-		t.Fatalf("expected 6 exporters, got %d", len(list))
+	if len(list) != 18 {
+		t.Fatalf("expected 18 exporters, got %d", len(list))
 	}
 }
 
@@ -40,7 +40,7 @@ func TestRegistryListOrder(t *testing.T) {
 	for i, e := range reg.List() {
 		ids[i] = e.ID()
 	}
-	want := []string{"txt", "javascript", "typescript", "rust", "python", "json"}
+	want := []string{"txt", "javascript", "typescript", "rust", "python", "json", "go", "java", "csharp", "c", "kotlin", "swift", "ruby", "php", "dart", "lua", "shell", "powershell"}
 	for i := range want {
 		if ids[i] != want[i] {
 			t.Fatalf("index %d: got %q, want %q", i, ids[i], want[i])
@@ -50,7 +50,7 @@ func TestRegistryListOrder(t *testing.T) {
 
 func TestRegistryListsAllRequiredFormats(t *testing.T) {
 	reg := export.NewRegistry()
-	want := []string{"txt", "javascript", "typescript", "rust", "python", "json"}
+	want := []string{"txt", "javascript", "typescript", "rust", "python", "json", "go", "java", "csharp", "c", "kotlin", "swift", "ruby", "php", "dart", "lua", "shell", "powershell"}
 	for _, id := range want {
 		if _, ok := reg.Get(id); !ok {
 			t.Fatalf("expected exporter %q to be registered", id)
@@ -70,6 +70,18 @@ func TestRegistryAllExportersReportIDAndName(t *testing.T) {
 		"rust":       "Rust",
 		"python":     "Python",
 		"json":       "JSON",
+		"go":         "Go",
+		"java":       "Java",
+		"csharp":     "C#",
+		"c":          "C/C++",
+		"kotlin":     "Kotlin",
+		"swift":      "Swift",
+		"ruby":       "Ruby",
+		"php":        "PHP",
+		"dart":       "Dart",
+		"lua":        "Lua",
+		"shell":      "Shell",
+		"powershell": "PowerShell",
 	}
 	for _, e := range reg.List() {
 		if name, ok := want[e.ID()]; !ok || name != e.Name() {

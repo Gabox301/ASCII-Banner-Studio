@@ -82,7 +82,7 @@ go run ./cmd/asciibanner "SKILLINDEX" -font banner -format javascript
 
 Flags disponibles: `-font` (ver `list-fonts`: 24 fuentes), `-spacing` (int, default 1),
 `-align` (left|center|right), `-uppercase`, `-trim`,
-`-format` (txt|javascript|typescript|python|json).
+`-format` (ver exporters: txt|javascript|typescript|rust|python|json|go|java|csharp|c|kotlin|swift|ruby|php|dart|lua|shell|powershell).
 
 ### Ejemplos verificados
 
@@ -237,7 +237,13 @@ go run ./cmd/asciibanner "GABO" -font banner -format json
 ```
 
 ```json
-["  ████    ███    ████     ███   ", " █       █   █   █   █   █   █  ", " █  ██   █████   ████    █   █  ", " █   █   █   █   █   █   █   █  ", "  ████   █   █   ████     ███   "]
+[
+  "  ████    ███    ████     ███   ",
+  " █       █   █   █   █   █   █  ",
+  " █  ██   █████   ████    █   █  ",
+  " █   █   █   █   █   █   █   █  ",
+  "  ████   █   █   ████     ███   "
+]
 ```
 
 ```bash
