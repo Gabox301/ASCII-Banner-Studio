@@ -37,6 +37,7 @@ func New(generator ports.BannerGenerator, exporters ports.ExporterRepository) *C
 //
 //	asciibanner "TEXTO" [flags]
 //	asciibanner list-fonts
+//	asciibanner list-formats
 //
 // Flags:
 //
@@ -48,13 +49,20 @@ func New(generator ports.BannerGenerator, exporters ports.ExporterRepository) *C
 //	-format string     si se pasa, exporta en ese formato en vez de imprimir texto plano
 func (c *CLI) Run(args []string) int {
 	if len(args) == 0 {
-		fmt.Fprintln(c.Stderr, "uso: asciibanner \"TEXTO\" [flags] | asciibanner list-fonts")
+		fmt.Fprintln(c.Stderr, "uso: asciibanner \"TEXTO\" [flags] | asciibanner list-fonts | asciibanner list-formats")
 		return 2
 	}
 
 	if args[0] == "list-fonts" {
 		for _, f := range c.Generator.ListFonts() {
 			fmt.Fprintf(c.Stdout, "%s\t%s\n", f.ID, f.Name)
+		}
+		return 0
+	}
+
+	if args[0] == "list-formats" {
+		for _, e := range c.Exporters.List() {
+			fmt.Fprintf(c.Stdout, "%s\t%s\n", e.ID(), e.Name())
 		}
 		return 0
 	}
@@ -73,10 +81,18 @@ func (c *CLI) Run(args []string) int {
 		return 2
 	}
 
+	alignValue := domain.Alignment(strings.ToLower(*align))
+	switch alignValue {
+	case domain.AlignLeft, domain.AlignCenter, domain.AlignRight:
+	default:
+		fmt.Fprintf(c.Stderr, "invalid align %q: must be one of left|center|right\n", *align)
+		return 2
+	}
+
 	opts := domain.BannerOptions{
 		Font:      *font,
 		Spacing:   *spacing,
-		Align:     domain.Alignment(strings.ToLower(*align)),
+		Align:     alignValue,
 		Uppercase: *uppercase,
 		Trim:      *trim,
 	}
