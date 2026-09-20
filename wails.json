@@ -1,7 +1,7 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "ascii-banner-studio",
-  "outputfilename": "ASCIIBannerStudio",
+  "outputfilename": "ASCII-Banner-Studio",
   "frontend:install": "",
   "frontend:build": "",
   "frontend:dev:watcher": "",

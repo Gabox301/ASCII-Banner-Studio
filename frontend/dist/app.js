@@ -44,6 +44,7 @@ const EXT_BY_FORMAT = {
 const els = {
   textInput: document.getElementById('text-input'),
   fontSelect: document.getElementById('font-select'),
+  alignSelect: document.getElementById('align-select'),
   spacing: document.getElementById('spacing'),
   spacingValue: document.getElementById('spacing-value'),
   uppercase: document.getElementById('uppercase'),
@@ -59,6 +60,7 @@ const els = {
 const state = {
   fonts: [],
   font: 'block',
+  align: 'left',
   spacing: 1,
   uppercase: false,
   trim: false,
@@ -67,8 +69,8 @@ const state = {
 
 let debounceTimer = null;
 let refreshSeq = 0;
-// ===== Inicialización =====
 
+// ===== Inicialización =====
 async function init() {
   try {
     const [fonts, formats] = await Promise.all([ListFonts(), ListExportFormats()]);
@@ -115,6 +117,10 @@ function bindEvents() {
     state.font = els.fontSelect.value;
     scheduleRefresh();
   });
+  els.alignSelect.addEventListener('change', () => {
+    state.align = els.alignSelect.value;
+    scheduleRefresh();
+  });
   els.spacing.addEventListener('input', () => {
     state.spacing = Number(els.spacing.value);
     els.spacingValue.textContent = String(state.spacing);
@@ -144,13 +150,13 @@ function bindEvents() {
     }
   });
 }
-// ===== Generación en vivo =====
 
+// ===== Generación en vivo =====
 function options() {
   return {
     Font: state.font,
     Spacing: state.spacing,
-    Align: 'left', // la UI no expone alineación; se usa el default del motor
+    Align: state.align,
     Uppercase: state.uppercase,
     Trim: state.trim,
   };
@@ -207,7 +213,6 @@ function flashOk(message, ms = 2500) {
 }
 
 // ===== Acciones =====
-
 async function copyToClipboard() {
   const text = els.output.textContent;
   if (!text) return;
@@ -241,5 +246,4 @@ async function saveToFile() {
 }
 
 // ===== Arranque =====
-
 init().catch((err) => showError(String(err)));
