@@ -135,21 +135,6 @@ h1 {
   color: var(--ok);
 }
 
-.stamp {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-dark);
-  border: 2px solid var(--accent);
-  background: rgba(255, 43, 43, 0.08);
-  padding: 5px 9px;
-  transform: rotate(-3deg);
-  user-select: none;
-  flex-shrink: 0;
-}
-
 /* ===== Botones ===== */
 
 .btn {
@@ -327,43 +312,6 @@ input[type='range']::-moz-range-thumb {
   font-family: var(--font-mono);
   font-weight: 700;
   margin-left: 6px;
-}
-
-/* ===== Segmented control (fuente / alineación) ===== */
-
-.segmented {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.segmented button {
-  flex: 1;
-  min-width: max-content;
-  padding: 9px 12px;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg-input);
-  color: var(--text);
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition:
-    background 0.12s,
-    color 0.12s;
-}
-
-.segmented button:hover {
-  background: #ffffff;
-}
-
-.segmented button.active {
-  background: var(--accent);
-  color: var(--accent-text);
-  box-shadow: 2px 2px 0 var(--border);
 }
 
 /* ===== Toggles ===== */
