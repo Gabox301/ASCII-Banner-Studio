@@ -42,3 +42,26 @@ func TestSwiftExporterEscapesQuotesAndBackslashes(t *testing.T) {
 		t.Fatalf("expected escaped backslash, got: %s", out)
 	}
 }
+
+func TestSwiftExporterEscapesInterpolation(t *testing.T) {
+	tests := []struct {
+		name  string
+		lines []string
+		want  string
+	}{
+		{name: "interpolation opener is neutralized", lines: []string{`\(name)`}, want: `    "\\(name)",` + "\n"},
+		{name: "ascii art backslash paren is neutralized", lines: []string{`\(`}, want: `    "\\(",` + "\n"},
+		{name: "plain parens are untouched", lines: []string{`(x)`}, want: `    "(x)",` + "\n"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			out, err := export.SwiftExporter{}.Export(tt.lines)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if !strings.Contains(out, tt.want) {
+				t.Fatalf("expected output to contain %q, got: %s", tt.want, out)
+			}
+		})
+	}
+}

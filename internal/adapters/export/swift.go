@@ -13,7 +13,7 @@ func (SwiftExporter) Export(lines []string) (string, error) {
 	b.WriteString("let BANNER = [\n")
 	for _, line := range lines {
 		b.WriteString("    \"")
-		b.WriteString(escapeDoubleQuoted(line))
+		b.WriteString(escapeSwift(line))
 		b.WriteString("\",\n")
 	}
 	b.WriteString("]\n")
