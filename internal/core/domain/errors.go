@@ -3,7 +3,7 @@ package domain
 import "errors"
 
 // ErrTextTooLong se devuelve cuando la entrada excede MaxTextLength.
-var ErrTextTooLong = errors.New("Text is too long.")
+var ErrTextTooLong = errors.New("text is too long")
 
 // ErrFontNotFound se devuelve cuando se solicita una fuente inexistente.
 var ErrFontNotFound = errors.New("font not found")
