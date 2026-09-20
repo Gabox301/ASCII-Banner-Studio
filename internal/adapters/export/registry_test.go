@@ -1,7 +1,6 @@
 package export_test
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/gabriel/ascii-banner-studio/internal/adapters/export"
@@ -92,6 +91,5 @@ func TestRegistryAllExportersReportIDAndName(t *testing.T) {
 
 func TestNewRegistryImplementsExporterRepository(t *testing.T) {
 	var _ ports.ExporterRepository = export.NewRegistry()
-	_ = strings.TrimSpace("")
 	t.Log("Registry implements ExporterRepository interface")
 }

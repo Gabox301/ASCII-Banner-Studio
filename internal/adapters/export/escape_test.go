@@ -102,3 +102,25 @@ func TestEscapePowerShellSingleQuote(t *testing.T) {
 		t.Fatalf("expected doubled quote, got %q", out)
 	}
 }
+
+func TestEscapeSwiftInterpolation(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "interpolation opener is neutralized", input: `\(name)`, want: `\\(name)`},
+		{name: "empty interpolation is neutralized", input: `\(`, want: `\\(`},
+		{name: "doubled backslash before paren stays paired", input: `\\(x)`, want: `\\\\(x)`},
+		{name: "plain parens are untouched", input: `(x)`, want: `(x)`},
+		{name: "double quotes still escaped", input: `say "hi"`, want: `say \"hi\"`},
+		{name: "lone backslash still escaped", input: `back\slash`, want: `back\\slash`},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := escapeSwift(tt.input); got != tt.want {
+				t.Fatalf("escapeSwift(%q): got %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}

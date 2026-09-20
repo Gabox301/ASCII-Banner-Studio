@@ -55,6 +55,16 @@ func escapeDartSingleQuoted(s string) string {
 	return s
 }
 
+// escapeSwift escapa para strings "de Swift: \( inicia interpolación y
+// debe neutralizarse. Duplicar cada backslash (vía escapeDoubleQuoted)
+// ya lo cubre: un \( original llega como \\( — backslash literal +
+// paréntesis literal — sin interpolar. La función existe para fijar esa
+// garantía con nombre propio, en simetría con escapeKotlin,
+// escapeRubyDoubleQuoted y escapeDartSingleQuoted.
+func escapeSwift(s string) string {
+	return escapeDoubleQuoted(s)
+}
+
 // escapeShellSingleQuoted escapa para strings 'de Shell: dentro de comillas
 // simples no hay escapes, la comilla se cierra, se agrega \' y se reabre.
 func escapeShellSingleQuoted(s string) string {

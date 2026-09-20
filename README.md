@@ -19,8 +19,8 @@ internal/
 │   ├── ports/                interfaces: BannerGenerator, FontRepository, Exporter
 │   └── service/              BannerService: implementa BannerGenerator
 └── adapters/                adaptadores concretos (infraestructura)
-    ├── fonts/                adaptador secundario: FontRepository (block/big/banner/minimal)
-    ├── export/               adaptador secundario: Exporter (txt/js/ts/python/json)
+    ├── fonts/                adaptador secundario: FontRepository (24 fuentes: block/big/banner/minimal + 20 estilos figlet, ver `list-fonts`)
+    ├── export/               adaptador secundario: Exporter (18 formatos, ver `list-formats`)
     ├── cli/                  adaptador primario: traduce argv → BannerGenerator
     └── gui/                  adaptador primario: bindings Wails → BannerGenerator
 ```
@@ -39,7 +39,7 @@ formatos con copiado al portapapeles o guardado con diálogo nativo.
 
 ### Requisitos
 
-- Go 1.25+
+- Go 1.27 (ver `go.mod`)
 - Wails CLI: `go install github.com/wailsapp/wails/v2/cmd/wails@latest`
 - Windows: runtime **WebView2** (viene preinstalado en Windows 10/11)
 - No requiere Node.js: el frontend es HTML/CSS/JS puro sin build step
@@ -76,17 +76,18 @@ con ícono y manifiesto, se usan los assets de `build/` (reemplazá
 ```bash
 go build ./...
 go run ./cmd/asciibanner list-fonts
+go run ./cmd/asciibanner list-formats
 go run ./cmd/asciibanner "SKILLINDEX" -font block -spacing 1 -align left
 go run ./cmd/asciibanner "SKILLINDEX" -font banner -format javascript
 ```
 
 Flags disponibles: `-font` (ver `list-fonts`: 24 fuentes), `-spacing` (int, default 1),
 `-align` (left|center|right), `-uppercase`, `-trim`,
-`-format` (ver exporters: txt|javascript|typescript|rust|python|json|go|java|csharp|c|kotlin|swift|ruby|php|dart|lua|shell|powershell).
+`-format` (ver `list-formats`: txt|javascript|typescript|rust|python|json|go|java|csharp|c|kotlin|swift|ruby|php|dart|lua|shell|powershell).
 
 ### Ejemplos verificados
 
-Todos los comandos se ejecutan desde la raíz del repo. Salidas copiadas de ejecuciones reales con Go 1.26.5.
+Todos los comandos se ejecutan desde la raíz del repo. Salidas copiadas de ejecuciones reales con Go 1.27.
 
 #### 1. Listar fuentes disponibles
 
@@ -95,10 +96,55 @@ go run ./cmd/asciibanner list-fonts
 ```
 
 ```
-banner  Banner
-big     Big
-block   Block
-minimal Minimal
+ansi-shadow	ANSI Shadow
+banner	Banner
+banner3d	Banner3-D
+big	Big
+big-figlet	Big Figlet
+block	Block
+block-figlet	Block Figlet
+bubble	Bubble
+colossal	Colossal
+digital	Digital
+doom	Doom
+epic	Epic
+graffiti	Graffiti
+isometric	Isometric
+larry3d	Larry 3D
+minimal	Minimal
+ogre	Ogre
+pyramid	Pyramid
+script	Script
+shadow	Shadow
+slant	Slant
+standard	Standard
+starwars	Star Wars
+tinker-toy	Tinker Toy
+```
+
+```bash
+go run ./cmd/asciibanner list-formats
+```
+
+```
+txt	Plain Text
+javascript	JavaScript
+typescript	TypeScript
+rust	Rust
+python	Python
+json	JSON
+go	Go
+java	Java
+csharp	C#
+c	C/C++
+kotlin	Kotlin
+swift	Swift
+ruby	Ruby
+php	PHP
+dart	Dart
+lua	Lua
+shell	Shell
+powershell	PowerShell
 ```
 
 #### 2. Misma palabra, distintas fuentes

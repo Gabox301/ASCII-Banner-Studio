@@ -7,7 +7,7 @@ import (
 )
 
 func TestErrTextTooLong(t *testing.T) {
-	if domain.ErrTextTooLong.Error() != "Text is too long." {
+	if domain.ErrTextTooLong.Error() != "text is too long" {
 		t.Fatalf("ErrTextTooLong message mismatch: got %q", domain.ErrTextTooLong)
 	}
 }
